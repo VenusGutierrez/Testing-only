@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>E NOTES</title>
+<style>
+    body {
+        background-color: #000033; /* Dark blue background */
+        color: #ffffff;
+        font-family: 'Arial', sans-serif;
+        margin: 0;
+        padding: 0;
+    }
+    .container {
+        text-align: center;
+        padding: 20px;
+    }
+    h1 {
+        font-size: 6em; /* Double the size */
+        margin-bottom: 20px;
+        color: #ff9900; /* Different color for title */
+    }
+    header {
+        background-color: #0c0101; /* Header background color */
+        padding: 10px 0;
+        margin-bottom: 20px;
+    }
+    nav {
+        margin-bottom: 20px;
+    }
+    .nav-btn {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        padding: 20px 40px; /* Original size */
+        font-size: 16px;
+        cursor: pointer;
+        margin: 0 5px;
+        display: inline-block;
+        text-align: center;
+    }
+    .nav-btn:hover {
+        background-color: #666666; /* Hover color for navigation buttons */
+    }
+    .button-text {
+        font-size: 32px; /* Double the font size */
+    }
+    button {
+        background-color: transparent;
+        border: none;
+        color: #ffffff;
+        padding: 10px 20px;
+        font-size: 16px;
+        cursor: pointer;
+    }
+    .content {
+        display: none;
+        margin-top: 20px;
+        text-align: center; /* Center align content */
+    }
+    .status {
+        margin-top: 20px;
+        position: absolute;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+    }
+    .loader {
+        border: 4px solid #f3f3f3;
+        border-top: 4px solid #3498db;
+        border-radius: 50%;
+        width: 30px;
+        height: 30px;
+        animation: spin 2s linear infinite;
+        margin: 0 auto;
+    }
+    @keyframes spin {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
+    }
+    .backBtn {
+        margin-top: 20px;
+        background-color: #666666; /* Back button background color */
+    }
+    .backBtn:hover {
+        background-color: #888888; /* Hover color for back button */
+    }
+    .instrumentLink {
+        color: #ffffff;
+        text-decoration: none;
+    }
+    .instrumentLink:hover {
+        text-decoration: underline;
+    }
+</style>
+</head>
+<body>
+<header>
+    <div class="container">
+        <h1>E NOTES</h1>
+    </div>
+</header>
+<div class="container">
+    <nav>
+        <button class="nav-btn" id="aboutBtn"><span class="button-text">ABOUT</span></button>
+        <button class="nav-btn" id="homeBtn"><span class="button-text">HOME</span></button>
+        <button class="nav-btn" id="instrumentsBtn"><span class="button-text">INSTRUMENTS</span></button>
+        <button class="nav-btn" id="uploadBtn" onclick="document.getElementById('fileInput').click()">UPLOAD MP3 FILE &#x25BC;</button>
+        <input type="file" id="fileInput" accept="audio/*" style="display: none;" onchange="uploadFile()">
+    </nav>
+    <div id="transcriptionStatus" class="status" style="display: none;">
+        <p>AUDIO IS NOW TRANSCRIBING TO MUSICAL SHEETS. PLEASE WAIT FOR A MINUTE</p>
+        <div class="loader"></div>
+    </div>
+    <div id="aboutContent" class="content" style="display: none;">
+        <p>E Notes: An application Conversion of Music Into Musical Sheets of Common Band Instruments Using Digital Signal Processing.</p>
+        <p>THE DEVELOPERS ARE COLLEGE STUDENTS: VENUS GUTIERREZ, SUNSHINE NAAG, AND MA. FLORENCE MEJIA.</p>
+        <button class="backBtn" onclick="hideContent()">BACK</button>
+    </div>
+    <div id="instrumentsContent" class="content" style="display: none;">
+        <p><a href="#" class="instrumentLink" data-instrument="Acoustic Guitar">ACOUSTIC GUITAR</a></p>
+        <p><a href="#" class="instrumentLink" data-instrument="Bass Guitar">BASS GUITAR</a></p>
+        <p><a href="#" class="instrumentLink" data-instrument="Electric Guitar">ELECTRIC GUITAR</a></p>
+        <p><a href="#" class="instrumentLink" data-instrument="Drums">DRUMS</a></p>
+        <p><a href="#" class="instrumentLink" data-instrument="Piano">PIANO</a></p>
+        <button class="backBtn" onclick="hideContent()">BACK</button>
+    </div>
+    <div id="instrumentDetails" class="content" style="display: none;">
+        <p id="instrumentDescription"></p>
+        <button class="backBtn" onclick="showInstruments()">BACK</button>
+    </div>
+</div>
+<script>
+    function uploadFile() {
+        // Code to handle file upload goes here
+        document.getElementById('transcriptionStatus').style.display = 'block';
+        document.getElementById('uploadBtn').innerText = 'UPLOAD MP3 FILE \u25BC';
+    }
+
+    function hideContent() {
+        document.getElementById('aboutContent').style.display = 'none';
+        document.getElementById('instrumentsContent').style.display = 'none';
+        document.getElementById('instrumentDetails').style.display = 'none';
+        document.getElementById('fileInput').style.display = 'none';
+    }
+
+    function hideInstrumentDetails() {
+        document.getElementById('instrumentDetails').style.display = 'none';
+    }
+
+    function showInstruments() {
+        hideContent();
+        document.getElementById('instrumentsContent').style.display = 'block';
+    }
+
+    document.getElementById('aboutBtn').addEventListener('click', function() {
+        hideContent();
+        document.getElementById('aboutContent').style.display = 'block';
+    });
+
+    document.getElementById('homeBtn').addEventListener('click', function() {
+        hideContent();
+    });
+
+    document.getElementById('instrumentsBtn').addEventListener('click', function() {
+        hideContent();
+        document.getElementById('instrumentsContent').style.display = 'block';
+    });
+
+    document.querySelectorAll('.instrumentLink').forEach(item => {
+        item.addEventListener('click', function() {
+            hideContent();
+            document.getElementById('instrumentDetails').style.display = 'block';
+            document.getElementById('instrumentDescription').innerText = 'Details about ' + this.getAttribute('data-instrument');
+        });
+    });
+</script>
+</body>
+</html>
